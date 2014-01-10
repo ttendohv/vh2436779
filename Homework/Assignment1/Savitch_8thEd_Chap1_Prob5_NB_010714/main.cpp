@@ -2,6 +2,7 @@
  * File:   main.cpp
  * Author: Victoria Hodnett
  * Created on January 7, 2014, 7:15 PM
+ * Savitch 8th Edition Chapter 1 Problem 5
  * Read two integers and output sum and product
  */
 

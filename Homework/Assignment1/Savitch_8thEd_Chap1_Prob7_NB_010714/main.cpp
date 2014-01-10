@@ -2,6 +2,7 @@
  * File:   main.cpp
  * Author: Victoria Hodnett
  * Created on January 7, 2014, 8:57 PM
+ * Savitch 8th Edition Chapter 1 Problem 7
  * Output "CS!" in large block letters
  */
 
