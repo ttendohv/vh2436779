@@ -35,7 +35,7 @@ int main(){
         //Calculate the next year's increase
         price *= (1+infltn);
         //Output
-        cout << "Price increase for year " << year - (year - counter) <<
+        cout << "Price increase for year " << counter <<
                 " = $" << fixed << showpoint << setprecision(2) << price << endl;
         counter++;
     } while (counter <= year);
