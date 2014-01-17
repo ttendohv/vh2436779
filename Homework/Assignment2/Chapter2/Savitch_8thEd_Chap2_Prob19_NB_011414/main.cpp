@@ -30,16 +30,15 @@ int main(int argc, char** argv) {
         cin >> excScore;
         cout << "Total points possible for exercise " << counter << ": ";
         cin >> totPts;
-        sumScore += excScore;
-        sumPts += totPts;
+        sumScore += excScore; //Accumulate scores
+        sumPts += totPts; //Accumulate total points possible
         counter++;
     } while (counter <= numExc);
     //Calculate percentage
     totPerc = (sumScore/sumPts)*100;
-    //Output
+    //Output score and percentage
     cout << "\nYour total is " << sumScore << " out of " << sumPts
          << ", or " << fixed << showpoint << setprecision(2) << totPerc << "%.";
-    
     
     //Exit
     return 0;

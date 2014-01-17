@@ -31,13 +31,19 @@ int main(int argc, char** argv) {
     cin >> height;
     cout << "\tAge, in years: ";
     cin >> age;
+    do{
     cout << "\tGender, M or F: ";
     cin >> gender;
-    //Calculate BMR
+    //Calculate BMR, dependent on gender
     if (gender == 'F' || gender == 'f')
         basMeRt = 655 + (4.3 * weight) + (4.7 * height) - (4.7 * age);
-    else
+    else if (gender == 'M' || gender == 'm')
         basMeRt = 66 + (6.3 * weight) + (12.9 * height) - (6.8 * age);
+    else{
+        cout << "Invalid input. Please try again." << endl;
+        gender = -1;
+    }
+    }while(gender == -1);
     //Output number of chocolate bars to be consumed
     cout << "You should consume " << fixed << showpoint << setprecision(2)
          << basMeRt/CHOC_BAR << " chocolate bars to maintain your current weight.";

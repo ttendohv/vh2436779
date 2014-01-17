@@ -19,16 +19,17 @@ using namespace std;
 
 int main(int argc, char** argv) {
     //Declare variables
-    int tempC, endTemp;
+    int tempC, endTemp; // in Celsius
     float velSnd; // meters per second
     //Input start and end temperatures
     cout << "What is the starting temperature, in degrees Celsius? ";
     cin >> tempC;
     cout << "What is the ending temperature, in degrees Celsius? ";
     cin >> endTemp;
-    //Output
     do{
+        //Calculate velocity
         velSnd = 331.3 + 0.61 * tempC; 
+        //Output velocity
         cout << "At " << tempC << " degrees Celsius the velocity of "
              << "sound is " << fixed << showpoint << setprecision(1) 
              << velSnd << " m/s" << endl;

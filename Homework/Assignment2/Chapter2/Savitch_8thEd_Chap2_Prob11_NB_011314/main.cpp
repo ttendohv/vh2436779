@@ -16,7 +16,6 @@ using namespace std;
 //Function Prototypes
 
 //Execution Begins Here
-
 int main(int argc, char** argv) {
     //Declare variables
     int number, posSum = 0, negSum = 0, allSum = 0, 
@@ -29,11 +28,11 @@ int main(int argc, char** argv) {
         //Calculate sums
         if (number > 0){
             posSum += number;
-            posCntr++;
+            posCntr++; //Add up positive numbers
         }
         else{
             negSum += number;
-            negCntr++;
+            negCntr++; //Add up nonpositive numbers
         }
         allSum += number;
         numCntr++;

@@ -32,6 +32,7 @@ int main(int argc, char** argv) {
         cin >> yrName;
         cout << "\tA food item: ";
         cin >> fooditm;
+        //Number validation
         do {
             cout << "\tA number between 100 and 120: ";
             cin >> number;

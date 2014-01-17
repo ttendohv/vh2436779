@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   main.cpp
  * Author: Victoria Hodnett
  * Created on January 13, 2014, 4:53 PM
@@ -8,6 +8,7 @@
 
 //System Libraries
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 //Global Constants
@@ -19,19 +20,20 @@ const float MTRC_TON_OZ = 35273.92; //metric ton in ounces
 
 int main(int argc, char** argv) {
     //Declare variables
-    float crlWgt, //weight of cereal box 
+    float crlWgt, //weight of cereal box
           mtrcWgt, //weight of cereal in metric tons
           numBox; //number of cereal boxes to make metric ton
     char response; //user response to continue or discontinue program
-    
+
     do {
         //Input cereal box weight
         cout << "How much does the box of cereal weigh in ounces? ";
         cin >> crlWgt;
-        //Calculate
+        //Calculate metric weight and number of boxes in metric ton
         mtrcWgt = crlWgt / MTRC_TON_OZ;
         numBox = MTRC_TON_OZ / mtrcWgt;
-        //Output
+        //Output metric weight and number of boxes
+        cout << scientific << showpoint << setprecision(2);
         cout << "Your box of cereal is " << mtrcWgt << " metric tons." << endl;
         cout << "It would take " << numBox << " boxes of cereal to make "
                 "a metric ton." << endl;
