@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
         cout << "  Total Amount Due: $" << amtDue << endl;
         cout << "  Minimum Payment: $" << minPymt << endl;
         //Prompt for repeat
-        cout << "\nWould you like to repeat for another account? ";
+        cout << "\nWould you like to repeat for another account? Y/N: ";
         cin >> response;
         cout << endl;
     }while (response == 'y' || response == 'Y');

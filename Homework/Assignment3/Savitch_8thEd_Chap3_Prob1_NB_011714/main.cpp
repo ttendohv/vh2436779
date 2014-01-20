@@ -11,14 +11,6 @@
 using namespace std;
 
 //Global Constants
-/*
-const char PAPER_U = 'P'; //uppercase P for paper
-const char PAPER_L = 'p'; //lowercase p for paper
-const char ROCK_U = 'R'; //uppercase R for rock
-const char ROCK_L = 'r'; //lowercase r for rock
-const char SCISR_U = 'S'; //uppercase S for scissor
-const char SCISR_L = 's'; //lowercase s for scissor
-*/
 
 //Function Prototypes
 

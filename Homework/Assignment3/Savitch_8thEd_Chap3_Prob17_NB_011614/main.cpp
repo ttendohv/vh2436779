@@ -72,7 +72,7 @@ int main(int argc, char** argv) {
     }}while(response == -1);
     //Output number of chocolate bars to be consumed
     cout << "You should consume " << fixed << showpoint << setprecision(2)
-         << basMeRt/CHOC_BAR << " chocolate bars to maintain your current weight.";
+         << basMeRt/CHOC_BAR << " chocolate bars to maintain your current weight." << endl;
         
     //Exit
     return 0;
