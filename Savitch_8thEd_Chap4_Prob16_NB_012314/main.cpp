@@ -42,7 +42,7 @@ void read(unsigned short& hr, unsigned short& min, char& ampm){
     char dum;
     cout << "Input a time: " << endl;
     cout << "Format XX:XX AM/PM" << endl;
-    cin >> setw(2) >> hr >> dum >> min >> setw(2) >> ampm >> dum;
+    cin >> hr >> dum >> min >> ampm >> dum;
     cout << "You input the following: " << endl;
     cout << "The hour = " << hr << endl;
     cout << "The minute = " << min << endl;
@@ -50,10 +50,10 @@ void read(unsigned short& hr, unsigned short& min, char& ampm){
 }
 
 unsigned short minutes(unsigned short hr, unsigned short min, char ampm){
-    hr += (((ampm = 'P' || ampm == 'p') && hr != CNV_24HR) ? CNV_24HR : 0);
-    hr -= (((ampm = 'A' || ampm == 'a') && hr == CNV_24HR) ? CNV_24HR : 0);
+    hr += ((ampm = 'P' || ampm == 'p') && hr != CNV_24HR) ? CNV_24HR : 0;
+    hr -= ((ampm = 'A' || ampm == 'a') && hr == CNV_24HR) ? CNV_24HR : 0;
     return (hr * CNV_MIN_HRS) + min;
-}
+} //12:00 AM - 12:00 PM shows no difference in time. Why?
 
 unsigned short diff(unsigned short strt, unsigned short stp){
     short min = stp - strt;
