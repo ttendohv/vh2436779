@@ -16,16 +16,18 @@ using namespace std;
 const int COLS=7;
 
 //Function Prototypes
-int read(char [],int [][COLS]);
-void write(int [][COLS],int);
-int min(int [][COLS],int);
-int max(int [][COLS],int);
-void avg(int [][COLS],int [], int [],int);
+int read(const char [],int [][COLS]);
+void write(const int [][COLS],int);
+void write(const int [][COLS], const float [], int);
+int min(const int [][COLS],int);
+int max(const int [][COLS],int);
+void avg(const int [][COLS],float [], float [],int);
 
 int main(int argc, char** argv) {
     //Declare variables
     const int ROWS=20;
-    int mnkFood[ROWS][COLS], avgPerM[ROWS], avgPerD[COLS];
+    int mnkFood[ROWS][COLS];
+    float avgPerM[ROWS], avgPerD[COLS];
     char fName[]="./monkey.dat";
     //Read the data from the file
     int actSize=read(fName,mnkFood);
@@ -44,6 +46,7 @@ int main(int argc, char** argv) {
     //by each monkey
     avg(mnkFood,avgPerM,avgPerD,actSize);
     cout << "Average amount of food eaten by each monkey: " << endl;
+    cout << fixed << showpoint << setprecision(2);
     for (int row = 0; row < actSize; row++){
         cout << "Monkey " << row+1 << "  " << avgPerM[row] << endl;
     }
@@ -51,16 +54,21 @@ int main(int argc, char** argv) {
     //Output average amount of food eaten by the
     //monkeys per day
     cout << "Average amount of food eaten each day: " << endl;
-    cout << "   M   T   W   T   F   S   S" << endl;
+    cout << "   M     T     W     T     F     S     S" << endl;
+    cout << fixed << showpoint << setprecision(2);
     for (int col = 0; col < COLS; col++){
-        cout << setw(4) << avgPerD[col];
+        cout << setw(6) << avgPerD[col];
     }
     cout << endl;
+    //Output augmented table
+    cout << endl;
+    cout << "             Augmented Table:";
+    write(mnkFood,avgPerM,actSize);
     //Exit stage right
     return 0;
 }
 
-void write(int monkey[][COLS],int ROWS){
+void write(const int monkey[][COLS],int ROWS){
     cout<<endl;
     cout << "Amount of food eaten by each Monkey per Day" << endl;
     cout << "                      Day" << endl;
@@ -75,7 +83,24 @@ void write(int monkey[][COLS],int ROWS){
     cout<<endl;
 }
 
-int read(char fName[],int monkey[][COLS]){
+void write(const int monkey[][COLS],const float avgPerM[],int ROWS){
+    cout<<endl;
+    cout << fixed << showpoint << setprecision(2);
+    cout << "Amount of food eaten by each Monkey per Day" << endl;
+    cout << "                      Day" << endl;
+    cout << "           M   T   W   T   F   S   S   Average" << endl;
+    for(int row=0;row<ROWS;row++){
+        cout << "Monkey " << row+1;
+        for(int col=0;col<COLS;col++){
+            cout<<setw(4)<<monkey[row][col];
+        }
+        cout << "    " << avgPerM[row];
+        cout<<endl;
+    }
+    cout<<endl;
+}
+
+int read(const char fName[],int monkey[][COLS]){
     //Open the file
     ifstream input;
     input.open(fName);
@@ -93,7 +118,7 @@ int read(char fName[],int monkey[][COLS]){
     return --row;
 }
 
-int min(int monkey[][COLS],int ROWS){
+int min(const int monkey[][COLS],int ROWS){
     //Declare some small variable
     int small = monkey[0][0];
     for (int row = 0; row < ROWS; row++){
@@ -106,7 +131,7 @@ int min(int monkey[][COLS],int ROWS){
     return small;
 }
 
-int max(int monkey[][COLS],int ROWS){
+int max(const int monkey[][COLS],int ROWS){
     //Declare some big variable
     int big = monkey[0][0];
     for (int row = 0; row < ROWS; row++){
@@ -119,16 +144,16 @@ int max(int monkey[][COLS],int ROWS){
     return big;
 }
 
-void avg(int monkey[][COLS],int avgPerM[],int avgPerD[],int ROWS){
+void avg(const int monkey[][COLS],float avgPerM[],float avgPerD[],int ROWS){
     for(int row = 0; row < ROWS; row++){
-        int sum = 0;
+        float sum = 0.0;
         for(int col = 0; col < COLS; col++){
             sum += monkey[row][col];
         }
         avgPerM[row] = sum / COLS;
     }
     for(int col = 0; col < COLS; col++){
-        int sum = 0;
+        float sum = 0.0;
         for(int row = 0; row < ROWS; row++){
             sum += monkey[row][col];
         }
