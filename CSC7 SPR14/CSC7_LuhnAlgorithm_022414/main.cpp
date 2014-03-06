@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
+#include <ctime>
 using namespace std;
 
 //Global Constants
@@ -18,61 +19,28 @@ void dblNum(char&);
 int sumDgts(char[],int);
 void prntNum(char[],int);
 bool valid(char [],int);
+char rndDgit();
+void prpLuhn(char[],int);
+void Luhn(char[],int);
 
 //Execution
 int main(int argc, char** argv) {
     //Declare variables
-    int SIZE=25,actSize,sum,chkDgt;
+    int SIZE=16;
     char account[SIZE];
-    //Input account number
-    cout << "Please input account number: ";
-    cin >> account;
-    actSize=strlen(account);
-    cout << "Actual size: " << actSize << endl;
+    srand(static_cast<unsigned int>(time(0)));
     //Begin Luhn Algorithm
-    account[actSize]=account[actSize+1]='\0';
-    //Double numbers
-    int pos=actSize-1;
-    do{
-        dblNum(account[pos]);
-        cout << "Position " << pos << ": " << account[pos] << endl;
-        pos=pos-2;
-    }while(pos>0);
-    //Sum digits
-    sum=sumDgts(account,actSize);
-    //Find checking digit
-    cout << "Sum: " << sum << endl;
-    chkDgt=sum*9;
-    chkDgt%=100;
-    chkDgt%=10;
-    //Add checking digit to account number
-    account[actSize]=chkDgt+'0';
-    cout << "Checking digit: " << chkDgt << ", " << account[actSize] << endl;
-    actSize=strlen(account);
-    //Print account number with checking digit
-    prntNum(account,actSize);
-    //Validate card
-    if(valid(account,actSize))cout << "Your card is valid " << endl;
-    else cout << "Invalid" << endl;
+    prpLuhn(account,SIZE-2);
+    Luhn(account,SIZE-2);
+    
+    
     //Exit
     return 0;
 }
 
-//void dblNum(char &a){
-//    int num=atoi(a);
-//    num*=2;
-//    if(num>9){
-//        num%=10;
-//        num++;
-//    }
-//    a=('0'+num);
-//}
-
 void dblNum(char &a){
     int num=(a-'0');
-    cout << "Before "<< num << endl;
     num*=2;
-    cout << "After x2 " << num << endl;
     if(num>9){
         num%=10;
         num++;
@@ -82,15 +50,9 @@ void dblNum(char &a){
 
 int sumDgts(char a[],int size){
     int sum=0;
-//    int b[size];
-//    for(int i=0;i<size;i++){
-//        b[i]=a[i];
-//    }
     for(int i=0;i<size;i++){
-        cout << "Index " << i << ": " << a[i] << endl;
         sum+=a[i]-'0';
     }
-    cout << "Sum: " << sum << endl;
     return sum;
 }
 
@@ -106,7 +68,46 @@ bool valid(char a[],int size){
     for(int i=0;i<size;i++){
         sum+=a[i]-'0';
     }
-    cout << "Validating total: " << sum << endl;
+    //cout << "Validating total: " << sum << endl;
     if(sum%10==0)return true;
     else return false;
+}
+
+void prpLuhn(char cc[],int n){
+    //Create a random cc in prep for Luhn checksum
+    for(int i=0;i<n;i++){
+        cc[i]=rndDgit();
+    }
+    //Print out generated number
+    cout << "Card number: ";
+    prntNum(cc,n);
+    //Put null terminator at the end
+    for(int i=n;i<=n+1;i++){
+        cc[i]='\0';
+    }
+}
+
+char rndDgit(){
+    return rand()%10+48;
+}
+
+void Luhn(char a[], int size){
+    //Double numbers
+    int pos=size-1,sum,chkDgt;
+    do{
+        dblNum(a[pos]);
+        pos=pos-2;
+    }while(pos>0);
+    
+    //Sum digits
+    sum=sumDgts(a,size);
+    //Find checking digit
+    chkDgt=sum*9%10;
+    //Add checking digit to account number
+    a[size]=chkDgt+'0';
+    cout << "Card number (plus checking digit): ";
+    prntNum(a,size+1);
+    //Validate card
+    if(valid(a,size+1))cout << "Your card is valid " << endl;
+    else cout << "Invalid" << endl;
 }
