@@ -1,25 +1,28 @@
 /* 
  * File:   main.cpp
  * Author: Victoria Hodnett
- * Created on March 3, 2014, 1:09 PM
- * Mode
+ * Created on March 6, 2014, 4:19 PM
+ * Purpose: Mean, Median, Mode
  */
 
-//System Libaries
+//System Libraries
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 //Global Constants
 
 //Function Prototypes
+float mean(int[],int);
+float median(int[],int);
+int *mode(int[],int);
 void fillAry(int[],int);
 void prntAry(int[],int,int);
 void sort(const int[],int[],int);
 int maxFreq(int[],int);
 int nModes(int[],int,int);
-void findMds(int[],int[],int,int);
 
-//Execution
+//Execution Begins Here
 int main(int argc, char** argv) {
     //Declare variables
     const int SIZE=105;
@@ -32,22 +35,27 @@ int main(int argc, char** argv) {
     sort(array,brray,SIZE);
     //Print sorted array
     prntAry(brray,SIZE,10);
-    //What is the max frequency?
-    max=maxFreq(brray,SIZE);
+    //What is the mean of this array?
     cout << endl;
-    cout << "The max frequency in the array: " 
-            << max << endl;
-    //What is the number of modes?
-    numMds=nModes(brray,SIZE,max);
+    cout << "The mean of this array is: "
+            << setprecision(2) << showpoint << fixed
+            << mean(brray,SIZE) << endl;
+    //What is the median of this array?
+    cout << "The median of this array is: "
+            << setprecision(2) << showpoint << fixed
+            << median(brray,SIZE) << endl;
+    //What is the mode of this array?
+    int *modeAry = mode(brray,SIZE);
+    cout << "The number of modes in this array: "
+            << *(modeAry+0) << endl;
+    cout << "The number of times this (these) number(s) "
+            "occurred " << *(modeAry+1) << endl;
+    cout << "The mode(s): ";
+    for(int i=2;i<(*(modeAry+0)+2);i++){
+        cout << *(modeAry+i) << " "; 
+    }
     cout << endl;
-    cout << "The number of modes in the array: " 
-            << numMds << endl;
-    //What are the modes?
-    int modes[numMds];
-    findMds(brray,modes,SIZE,max);
-    cout << endl;
-    cout << "The modes in this array are: " << endl;
-    prntAry(modes,numMds,10);
+    
     //Exit
     return 0;
 }
@@ -85,7 +93,44 @@ void sort(const int a[],int b[],int size){
     }
 }
 
-//Requires sorted array for an input
+float mean(int a[],int size){
+    float sum=0.0;
+    for(int i=0;i<size;i++){
+        sum+=a[i];
+    }
+    return sum/size;
+}
+
+float median(int a[],int size){
+    if(size%2==1)
+        return a[(size-1)/2];
+    else
+        return (a[size/2]+a[(size/2)-1])/2.0;
+}
+
+int *mode(int a[],int size){
+    int maxFr=maxFreq(a,size);
+    int numMds=nModes(a,size,maxFr);
+    int *modes = new int[numMds+2];
+    *(modes+0)=numMds;
+    *(modes+1)=maxFr;
+    for(int n=2;n<(numMds+2);n++){
+        //Declare counters
+        int count=1,max=1;
+        //Loop and compare
+        for(int i=1;i<size;i++){
+            if(a[i-1]==a[i]){
+                count++;
+                if(count>max)max=count;
+            }else{
+                count = 1;
+            }
+            if(count==maxFr)modes[n++]=a[i];
+        }
+    }
+    return modes;
+}
+
 int maxFreq(int a[],int size){
     //Declare counters
     int count=1,max=1;
@@ -114,19 +159,4 @@ int nModes(int a[],int size,int maxFreq){
         }
     }
     return modes;
-}
-
-void findMds(int a[],int b[],int size,int maxFreq){
-    //Declare counters
-    int count=1,max=1,n=0;
-    //Loop and compare
-    for(int i=1;i<size;i++){
-        if(a[i-1]==a[i]){
-            count++;
-            if(count>max)max=count;
-        }else{
-            count = 1;
-        }
-        if(count==maxFreq)b[n++]=a[i];
-    }
 }
