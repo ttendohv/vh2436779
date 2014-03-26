@@ -15,19 +15,17 @@ using namespace std;
 //Global Constants
 
 //Function Prototypes
-void pigLatin(string&,vector<char>&);
+string pigLatin(string&);
 
 //Execution
 int main(int argc, char** argv) {
     //Declare variables
     string sntce = "This is a test";
-    vector<char>final;
+    string final;
     //Translate
-    pigLatin(sntce,final);
+    final = pigLatin(sntce);
     //Print
-    for(int i=0;i<final.size();i++)
-        cout << final[i];
-    cout << endl;
+    cout << final << endl;
     //Exit
     return 0;
 }
@@ -84,15 +82,15 @@ int main(int argc, char** argv) {
 
 string pigLatin(string &a){
     int size=a.length();
-    string temp,ending("ay");
+    string temp,ending("ay ");
     int pos,indx=0;
     
     do{
         pos=a.find(' ',indx);
-      
-        temp(a,indx,pos);
+        temp = a.substr(indx+1,pos-1);
+        temp.append(1,a[indx]);
         temp+=ending;
         indx=pos+1;
-        temp(' ',pos);
+        temp.resize(1,' ');
     }while(indx<size);
 }
