@@ -30,82 +30,106 @@ void transpose(char*,int);
 
 //Execution
 int main(int argc, char** argv) {
-//    //Declare variables
-//    int SIZE=16;
-//    char account[SIZE];
-    srand(static_cast<unsigned int>(time(0)));
-//    //Begin Luhn Algorithm
-//    prpLuhn(account,SIZE-2);
-//    Luhn(account,SIZE-2);
+    //srand(static_cast<unsigned int>(time(0)));
     
     //Declare variables
     int choice;
     CrdCard type;
     
-    //Prompt user for type of credit card
+//    //Prompt user for type of credit card
+//    do{
+//        cout << "Please indicate which credit card you would "
+//                "like to generate a number for.\nEnter in the "
+//                "corresponding number:" << endl;
+//        cout << "    1. American Express " << endl;
+//        cout << "    2. Visa " << endl;
+//        cout << "    3. MasterCard " << endl;
+//        cout << "    4. Discover " << endl;
+//        cout << "    5. ANY " << endl;
+//        cin >> choice;
+//        cout << endl;
+//    }while(choice > 5 || choice < 1);
+    int validNm=0,invalid=0,count=0;
     do{
-        cout << "Please indicate which credit card you would "
-                "like to generate a number for.\nEnter in the "
-                "corresponding number:" << endl;
-        cout << "    1. American Express " << endl;
-        cout << "    2. Visa " << endl;
-        cout << "    3. MasterCard " << endl;
-        cout << "    4. Discover " << endl;
-        cout << "    5. ANY " << endl;
-        cin >> choice;
-        cout << endl;
-    }while(choice > 5 || choice < 1);
+        srand(static_cast<unsigned int>(time(0)));
+        //Convert choice to CrdCard
+    //    switch(choice){
+    //        case 1:
+    //            type = AM_EXP;
+    //            break;
+    //        case 2:
+    //            type = VISA;
+    //            break;
+    //        case 3:
+    //            type = M_CRD;
+    //            break;
+    //        case 4:
+    //            type = DSCVR;
+    //            break;
+    //        case 5:
+    //            type = ALL;
+    //            break;
+    //        default:
+    //            break;
+    //    }
+
+        //Generate card
+        int size;
+        type=ALL;
+        char *account = genCC(type,size);
+
+    //    //Output generated card
+    //    cout << "Card number: ";
+    //    prntNum(account,size);
+
+        //Output card with checking digit
+        Luhn(account,size-1);
+
+    //    //Flip a digit
+    //    flipDig(account,size);
+    //    cout << "Altered account number: ";
+    //    prntNum(account,size);
+
+        //Transpose digits
+        transpose(account,size);
+    //    cout << "Card with transposed numbers: ";
+    //    prntNum(account,size);
+
+
+        //Validate 
+        if(valid(account,size-1))validNm++;
+        else invalid++;
+        count++;
+    }while(count<10000);
+    cout << "For transposing digits: " << endl;
+    cout << "Valid numbers: " << validNm << endl;
+    cout << "Invalid numbers: " << invalid << endl;
     
-    //Convert choice to CrdCard
-    switch(choice){
-        case 1:
-            type = AM_EXP;
-            break;
-        case 2:
-            type = VISA;
-            break;
-        case 3:
-            type = M_CRD;
-            break;
-        case 4:
-            type = DSCVR;
-            break;
-        case 5:
-            type = ALL;
-            break;
-        default:
-            break;
-    }
+    validNm=0,invalid=0,count=0;
+    do{
+        srand(static_cast<unsigned int>(time(0)));
+        //Generate card
+        int size;
+        type=ALL;
+        char *account = genCC(type,size);
+        //Card with checking digit
+        Luhn(account,size-1);
+        //Flip two digits
+        flipDigs(account,size);
+        //cout << "Account number with two flipped digits: ";
+        //prntNum(account,size-1);
+        //Validate 
+        if(valid(account,size))validNm++;
+        else invalid++;
+        count++;
+    }while(count<10000);
+    cout << "For flipping two digits: " << endl;
+    cout << "Valid numbers: " << validNm << endl;
+    cout << "Invalid numbers: " << invalid << endl;
     
-    //Generate card
-    int size;
-    char *account = genCC(type,size);
-    
-    //Output generated card
-    cout << "Card number: ";
-    prntNum(account,size);
-    
-    //Output card with checking digit
-    Luhn(account,size-1);
-    
-//    //Flip a digit
-//    flipDig(account,size);
-//    cout << "Altered account number: ";
-//    prntNum(account,size);
-    
-//    //Transpose digits
-//    transpose(account,size);
-//    cout << "Card with transposed numbers: ";
-//    prntNum(account,size);
-    
-    //Flip two digits
-    flipDigs(account,size);
-    cout << "Account number with two flipped digits: ";
-    prntNum(account,size);
-    
-    //Validate card
-    if(valid(account,size+1))cout << "Card number is valid" << endl;
-    else cout << "Card number is invalid" << endl;
+//    //Validate card
+//    if(valid(account,size))cout << "Card number is valid" << endl;
+//    else cout << "Card number is invalid" << endl;
     
     //Exit
     return 0;
@@ -114,10 +138,12 @@ int main(int argc, char** argv) {
 void dblNum(char &a){
     int num=(a-'0');
     num*=2;
+    //cout << "In double num...";
+    //cout << num << " ";
     if(num>9){
-        num%=10;
-        num++;
+        num-=9;
     }
+    //cout << num << endl;
     a=(num+'0');
 }
 
@@ -139,16 +165,20 @@ void prntNum(char *a,int size){
 }
 
 bool valid(char *a,int size){
-//    int sum=0;
+//    int sum=0,temp;
+//    cout << "Adding...";
 //    for(int i=0;i<size;i++){
-//        sum+=(a[i]-'0');
-//    }
-//    //int sum=sumDgts(a,size);
+//        temp=a[i]-'0';
+//        cout << temp << " ";
+//        sum+=temp;
+//    }cout << endl;
+////    //int sum=sumDgts(a,size);
 //    cout << "Validating total: " << sum << endl;
 //    if(sum%10==0)return true;
 //    else return false;
+    
     //Double numbers
-    int pos=size-1,sum,chkDgt;
+    int pos=size-2,sum,chkDgt;
     char b[size+1];
     for(int i=0;i<size;i++){
         b[i]=a[i];
@@ -159,7 +189,7 @@ bool valid(char *a,int size){
     }while(pos>0);
     
     //Sum digits
-    sum=sumDgts(b,size-2);
+    sum=sumDgts(b,size-1);
     //cout << "Sum: " << sum << endl;
     //Find checking digit
     chkDgt=sum*9%10;
@@ -180,7 +210,7 @@ void prpLuhn(char *cc,int size,int pos){
 //    cout << "Card number: ";
 //    prntNum(cc,size-2);
     //Put null terminator at the end
-    for(int i=size-1;i<=size;i++){
+    for(int i=size-2;i<size;i++){
         cc[i]='\0';
     }
 }
@@ -192,10 +222,10 @@ char rndDgit(){
 void Luhn(char *a, int size){
     //Double numbers
     int pos=size-2,sum,chkDgt;
-    char b[size+2];
-    for(int i=0;i<size+1;i++){
+    char b[size+1];
+    for(int i=0;i<size;i++){
         b[i]=a[i];
-    }b[size+1]='\0';
+    }b[size]='\0';
     do{
         dblNum(b[pos]);
         pos=pos-2;
@@ -208,12 +238,12 @@ void Luhn(char *a, int size){
     chkDgt=sum*9%10;
     //cout << "checking digit: " << chkDgt << endl;
     //Add checking digit to account number
-    a[size]=chkDgt+'0';
-    cout << "Card number (plus checking digit): ";
-    prntNum(a,size+1);
-    //Validate card
-    if(valid(a,size+1))cout << "Your card is valid " << endl;
-    else cout << "Invalid" << endl;
+    a[size-1]=chkDgt+'0';
+    //cout << "Card number (plus checking digit): ";
+    //prntNum(a,size+1);
+    ////Validate card
+    //if(valid(a,size))cout << "Your card is valid " << endl;
+    //else cout << "Invalid" << endl;
 }
 
 char *genCC(CrdCard type,int& actSize){
@@ -321,7 +351,6 @@ char *genCC(CrdCard type,int& actSize){
 }
 
 void flipDig(char *a,int size){
-    //int size = sizeof(a);
     int indx = rand()%size;
     int temp;
     do{
@@ -359,10 +388,10 @@ void transpose(char *a,int size){
     a[indx1]=a[indx2];
     a[indx2]=temp;
     //cout << a[indx1] << " " << a[indx2] << endl;
-    cout << "Before exiting transpose: ";
-    prntNum(a,size);
-    //Validate card
-    if(valid(a,size))cout << "Your card is valid " << endl;
-    else cout << "Invalid" << endl;
-    cout << "Exiting transpose... " << endl;
+    //cout << "Before exiting transpose: ";
+    //prntNum(a,size);
+    ////Validate card
+    //if(valid(a,size-1))cout << "Your card is valid " << endl;
+    //else cout << "Invalid" << endl;
+    //cout << "Exiting transpose... " << endl;
 }
