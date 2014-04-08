@@ -9,36 +9,47 @@
 //System Libraries
 #include <iostream>
 #include <iomanip>
-#include <cstdlib>
-#include <cmath>
 #include <string>
+#include <cmath>
 using namespace std;
 
 //Global Constants
 
 //Function Prototypes
 string translate(float);
+void prntChk(string,string,string,float);
 
 //Execution
 int main(int argc, char** argv) {
     //Declare variables
-    char date[10];
-    string name,amtWrds;
+    string date,name,amtWrds;
     float amount;
-    //Test
-    amount = 3245.68;
+    //Input
+    cout << "Input the date (Format MM/DD/YYYY): ";
+    getline(cin,date);
+    cout << "Name: ";
+    getline(cin,name);
+    cout << "Check Amount: $";
+    cin >> amount;
+//    //Test
+//    amount = 3245.68;
+//    amtWrds = translate(amount);
+//    cout << amtWrds << endl;
     amtWrds = translate(amount);
-    cout << amtWrds << endl;
+    //Print
+    prntChk(date,name,amtWrds,amount);
     
     //Exit
     return 0;
 }
 
-void prntChk(){
+void prntChk(string date,string name,string amtWrds,float amount){
     cout << endl;
-    cout << "Date: " << endl << endl;
-    cout << "Pay to the order of: " << endl << endl;
-    cout << "Some text" << endl;
+    cout << setw(50)<< "Date: " << date << endl << endl;
+    cout << "Pay to the order of: " << setw(8) << name << setw(17) << " $" 
+            << setprecision(2) << fixed << showpoint << amount 
+            << endl << endl;
+    cout << amtWrds << endl;
     
 }
 
@@ -53,77 +64,81 @@ string translate(float amount){
     tens = temp/10;
     ones = temp-(tens*10);
     
-    switch(thous){
-        case 1:
-            thsnd = "One ";
-            break;
-        case 2:
-            thsnd = "Two ";
-            break;
-        case 3:
-            thsnd = "Three ";
-            break;
-        case 4:
-            thsnd = "Four ";
-            break;
-        case 5:
-            thsnd = "Five ";
-            break;
-        case 6:
-            thsnd = "Six ";
-            break;
-        case 7:
-            thsnd = "Seven ";
-            break;
-        case 8:
-            thsnd = "Eight ";
-            break;
-        case 9:
-            thsnd = "Nine ";
-            break;
-        case 10:
-            thsnd = "Ten ";
-            break;
-        default:
-            break;
+    if(thous>0){
+        switch(thous){
+            case 1:
+                thsnd = "One ";
+                break;
+            case 2:
+                thsnd = "Two ";
+                break;
+            case 3:
+                thsnd = "Three ";
+                break;
+            case 4:
+                thsnd = "Four ";
+                break;
+            case 5:
+                thsnd = "Five ";
+                break;
+            case 6:
+                thsnd = "Six ";
+                break;
+            case 7:
+                thsnd = "Seven ";
+                break;
+            case 8:
+                thsnd = "Eight ";
+                break;
+            case 9:
+                thsnd = "Nine ";
+                break;
+            case 10:
+                thsnd = "Ten ";
+                break;
+            default:
+                break;
+        }
+        thsnd+="Thousand ";
     }
-    thsnd+="thousand ";
     
-    switch(hund){
-        case 1:
-            hndrd = "One ";
-            break;
-        case 2:
-            hndrd = "Two ";
-            break;
-        case 3:
-            hndrd = "Three ";
-            break;
-        case 4:
-            hndrd = "Four ";
-            break;
-        case 5:
-            hndrd = "Five ";
-            break;
-        case 6:
-            hndrd = "Six ";
-            break;
-        case 7:
-            hndrd = "Seven ";
-            break;
-        case 8:
-            hndrd = "Eight ";
-            break;
-        case 9:
-            hndrd = "Nine ";
-            break;
-        case 10:
-            hndrd = "Ten ";
-            break;
-        default:
-            break;
+    if(hund>0){
+        switch(hund){
+            case 1:
+                hndrd = "One ";
+                break;
+            case 2:
+                hndrd = "Two ";
+                break;
+            case 3:
+                hndrd = "Three ";
+                break;
+            case 4:
+                hndrd = "Four ";
+                break;
+            case 5:
+                hndrd = "Five ";
+                break;
+            case 6:
+                hndrd = "Six ";
+                break;
+            case 7:
+                hndrd = "Seven ";
+                break;
+            case 8:
+                hndrd = "Eight ";
+                break;
+            case 9:
+                hndrd = "Nine ";
+                break;
+            case 10:
+                hndrd = "Ten ";
+                break;
+            default:
+                break;
+        }
+        hndrd+="Hundred ";
     }
-    hndrd+="hundred ";
     
     switch(tens){
         case 1:{
@@ -229,10 +244,17 @@ string translate(float amount){
     cents = ceil((amount - static_cast<int>(amount))*100);
     
     mnyTxt = thsnd + hndrd + tns + one;
-    cout << mnyTxt << endl;
-    cnt = to_string(cents); 
-    cout << cnt << endl;
-    mnyTxt += " cents";
+    if(cents>0){
+        mnyTxt+="and ";
+        cout << mnyTxt << endl;
+        cnt = cents/10 + '0'; 
+        cout << cnt << endl;
+        mnyTxt+=cnt;
+        cnt = cents%10 + '0';
+        cout << cnt << endl;
+        mnyTxt+=cnt;
+        mnyTxt += " Cents";
+    }else mnyTxt+="Dollars ";
 
     return mnyTxt;
 }
