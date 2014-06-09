@@ -1,4 +1,4 @@
-/* 
+/*! \file TileGame.cpp 
  * File:   TileGame.cpp
  * Author: Victoria
  * 
@@ -9,18 +9,35 @@
 #include <iostream>
 #include <cstdlib>
 #include <iomanip>
+#include <fstream>
 using namespace std;
 
 //User-defined libraries
 #include "TileGame.h"
 #include "PlayerInfo.h"
 
+TileGame::TileGame(){
+    setRow(0);
+    setCol(0);
+}
+
 TileGame::TileGame(int a,int b) {
     //Set dimensions
-    setRow(a);
-    setCol(b);
-    //Initialize
-    initialize();
+    try{
+        setRow(a);
+        setCol(b);
+        
+        //Initialize
+        initialize();
+    }catch(TileGame::WrongDimension){
+        cout << "Error: Wrong dimensions provided. " << endl;
+        
+        setRow(3);
+        setCol(3);
+        
+        //Initialize
+        initialize();
+    }
 }
 
 TileGame::~TileGame() {
@@ -31,11 +48,19 @@ TileGame::~TileGame() {
 }
 
 void TileGame::setRow(int n){
-    row=n;
+    if(n!=4){
+        throw WrongDimension();
+    }else{
+        row=n;
+    }
 }
     
 void TileGame::setCol(int n){
-    col=n;
+    if(n!=4){
+        throw WrongDimension();
+    }else{
+        col=n;
+    }
 }
 
 void TileGame::initialize(){
@@ -202,8 +227,7 @@ void TileGame::add(Move x,int& pts){
                         board[2][j]+=board[3][j];
                         board[3][j]=0;
                         pts+=board[2][j];//Award points
-                    }
-                            
+                    }       
                 }else if(board[2][j]==board[3][j]){
                     board[2][j]+=board[3][j];
                     board[3][j]=0;
@@ -246,8 +270,7 @@ void TileGame::add(Move x,int& pts){
                         board[1][j]+=board[0][j];
                         board[0][j]=0;
                         pts+=board[1][j];//Award points;
-                    }
-                            
+                    }       
                 }else if(board[1][j]==board[0][j]){
                     board[1][j]+=board[0][j];
                     board[0][j]=0;
@@ -290,8 +313,7 @@ void TileGame::add(Move x,int& pts){
                         board[i][2]+=board[i][3];
                         board[i][3]=0;
                         pts+=board[i][2];//Award points;
-                    }
-                            
+                    }        
                 }else if(board[i][2]==board[i][3]){
                     board[i][2]+=board[i][3];
                     board[i][3]=0;
@@ -392,4 +414,51 @@ int TileGame::result(){
                 return 0;
             }
         }
+}
+
+void TileGame::save(int pts){
+    ofstream points;
+    points.open("Points.txt", ios::out);
+    points << pts;
+    points.close();
+    
+    bool tryAgn = true;
+    string fileName;
+    
+    while(tryAgn){
+        try{
+            fileName="";
+            cout << "Enter a file name for your game to save"
+                    " (exclude the file extension): ";
+            cin >> fileName;
+
+            string temp = "    ";
+            int length = fileName.length();
+            for(int i=3,j=length-1;i>=0,j>=0;i--,j--){
+                temp[i]=fileName[j];
+            }
+
+            //Check if they already added a file extension
+            if(temp[0]=='.'||temp==".txt"){
+                throw FileName(fileName);
+            }else{
+                tryAgn = false;
+            }
+        }catch(TileGame::FileName n){
+            cout << "Error: " << n.getFName() << " is an invalid file name. "
+                    "Please try again. " << endl;
+        }
+    }
+    
+    fileName+=".txt";
+    ofstream file;
+    file.open(fileName.c_str());
+    
+    for(int i=0;i<row;i++){
+        for(int j=0;j<col;j++){
+            file << board[i][j] << " ";
+        }
+    }
+    
+    file.close();
 }

@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/ResumeGame.o \
 	${OBJECTDIR}/TileGame.o \
 	${OBJECTDIR}/main.o
 
@@ -62,6 +63,11 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/csc17a_2048tilegame_project1_apr2014.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/csc17a_2048tilegame_project1_apr2014 ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/ResumeGame.o: ResumeGame.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ResumeGame.o ResumeGame.cpp
 
 ${OBJECTDIR}/TileGame.o: TileGame.cpp 
 	${MKDIR} -p ${OBJECTDIR}

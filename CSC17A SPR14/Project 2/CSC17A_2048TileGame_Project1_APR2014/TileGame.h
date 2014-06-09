@@ -19,14 +19,11 @@ enum Move{
     UP='t',   //!< Shift tiles up
     DOWN='v', //!< Shift tiles down
     LEFT='f', //!< Shift tiles left
-    RIGHT='g' //!< Shift tiles right
+    RIGHT='g', //!< Shift tiles right       
 };
         
 class TileGame {
     private:
-        int row; //!< Rows for board
-        int col; //!< Columns for board
-        int **board; //!< Two-dimensional array board for game play
         /*! \fn setRow
          *  \brief Mutator function to set the rows
          */
@@ -43,6 +40,42 @@ class TileGame {
          */
         void initialize();
     public:
+        /*! \class WrongDimension
+         *  \brief Exception class to catch wrong dimensions
+         */
+        class WrongDimension {};
+        /*! \class FileName
+         *  \brief Exception class to validate file names
+         */
+        class FileName {
+        private:
+            string fname; //!< Filename to save or retrieve
+        public:
+            /*! \fn FileName
+             *  \brief Class Constructor
+             * 
+             *  Set file name
+             *  \param fn store file name
+             */
+            FileName(string fn){
+                fname = fn;
+            }
+            /*! \fn getFName
+             *  \brief Return file name
+             * 
+             *  \return fname
+             */
+            string getFName() const{
+                return fname;
+            }
+        };
+        int row; //!< Rows for board
+        int col; //!< Columns for board
+        int **board; //!< Two-dimensional array board for game play
+        /*! \fn TileGame
+         *  \brief Default Class Constructor
+         */
+        TileGame();
         /*! \fn TileGame
          *  \brief Class Constructor
          * 
@@ -101,6 +134,10 @@ class TileGame {
          *  \return integer value indicating state of game
          */
         int result();
+        /*! \fn save
+         *  \brief Save board
+         */
+        void save(int);
 };
 
 #endif	/* TILEGAME_H */

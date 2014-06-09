@@ -4,7 +4,10 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>Game.h</itemPath>
       <itemPath>PlayerInfo.h</itemPath>
+      <itemPath>ResumeGame.cpp</itemPath>
+      <itemPath>ResumeGame.h</itemPath>
       <itemPath>TileGame.cpp</itemPath>
       <itemPath>TileGame.h</itemPath>
     </logicalFolder>
@@ -39,7 +42,13 @@
       </toolsSet>
       <compileType>
       </compileType>
+      <item path="Game.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="PlayerInfo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ResumeGame.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ResumeGame.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TileGame.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -68,7 +77,13 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="Game.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="PlayerInfo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ResumeGame.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ResumeGame.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TileGame.cpp" ex="false" tool="1" flavor2="0">
       </item>
